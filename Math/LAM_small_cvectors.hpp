@@ -41,7 +41,7 @@
 #include "../LAM_simd_defs.h"
 #include <cstdint>
 #include <type_traits>
-#include <xmmintrin.h>
+
 
 namespace lam {
 	namespace math {
