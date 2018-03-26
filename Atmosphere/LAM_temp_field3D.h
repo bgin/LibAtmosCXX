@@ -51,7 +51,7 @@ namespace lam {
 			// Explicit one-arg Constructor.
 			// Should be used to pointer member
 			// allocation and default initialization.
-			explicit TempField3D(_In_ const uint64_t indices[18]) noexcept(false);
+			explicit TempField3D(_In_ const uint64_t indices[18]);
 								
 
 			//
@@ -59,12 +59,12 @@ namespace lam {
 			// user passed array.
 			//
 			TempField3D(_In_ const uint64_t indices[18],
-						_In_ const double* __restrict) noexcept(false);
+						_In_ const double* __restrict);
 
 			//
 			// Copy-Constructor implements deep copy-semantics
 			//
-			TempField3D(_In_ const TempField3D &) noexcept(false);
+			TempField3D(_In_ const TempField3D &);
 
 			//
 			// Move-Constructor implements shallow copy-semantics
@@ -74,7 +74,7 @@ namespace lam {
 			//
 			// Class destructor
 			//
-			~TempField3D();
+			~TempField3D()noexcpet(true);
 
 			//
 			// Class member and friend operators
