@@ -144,7 +144,7 @@ lam::system
 			if ( definitely_greaterf64(m_timing_values[i],
 									 m_overhead_values[i],eps)){
 			 
-				m_delta_values[i] = m_timing_values[i] = m_overhead_values[i];
+				m_delta_values[i] = m_timing_values[i] - m_overhead_values[i];
 			}
 			else {
 				m_delta_values[i] = 0.0;
