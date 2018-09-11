@@ -2,37 +2,30 @@
 #ifndef __LAM_MKL_BETARNG_H__
 #define __LAM_MKL_BETARNG_H__
 
-#if !defined (LAM_MKL_BETARNG_MAJOR)
-#define LAM_MKL_BETARNG_MAJOR 1
-#endif
+namespace file_info {
+ // Include master version file
+#include "../LAM_version.h"
 
-#if !defined (LAM_MKL_BETARNG_MINOR)
-#define LAM_MKL_BETARNG_MINOR 0
-#endif
+const unsigned int gLAM_MKL_BETARNG_MAJOR = lam::common::gVersionInfo.m_VersionMajor;
 
-#if !defined (LAM_MKL_BETARNG_MICRO)
-#define LAM_MKL_BETARNG_MICRO 0
-#endif
+const unsigned int gLAM_MKL_BETARNG_MINOR = lam::common::gVersionInfo.m_VersionMinor;
 
-#if !defined (LAM_MKL_BETARNG_FULLVER)
-#define LAM_MKL_BETARNG_FULLVER 1000
-#endif
+const unsigned int gLAM_MKL_BETARNG_MICRO = lam::common::gVersionInfo.m_VersionMicro;
 
-#if !defined (LAM_MKL_BETARNG_CREATE_DATE)
-#define LAM_MKL_BETARNG_CREATE_DATE "25-04-2018 15:37 +00200 (WED 25 APR 2018 GMT+2)"
-#endif
+const unsigned int gLAM_MKL_BETARNG_FULLVER = 
+	1000U*gLAM_MKL_BETARNG_MAJOR + 100U*gLAM_MKL_BETARNG_MINOR + 10U*gLAM_MKL_BETARNG_MICRO;
 
-#if !defined (LAM_MKL_BETARNG_BUILD_DATE)
-#define LAM_MKL_BETARNG_BUILD_DATE " "
-#endif
 
-#if !defined (LAM_MKL_BETARNG_AUTHOR)
-#define LAM_MKL_BETARNG_AUTHOR "Programmer: Bernard Gingold, e-mail: beniekg@gmail.com"
-#endif
 
-#if !defined (LAM_MKL_BETARNG_DESCRIPT)
-#define LAM_MKL_BETARNG_DESCRIPT "C++ wrapper for Intel MKL vdRngBeta procedure."
-#endif
+const char * const pgLAM_MKL_BETARNG_CREATE_DATE = "25-04-2018 15:37 +00200 (WED 25 APR 2018 GMT+2)";
+
+const char * const pgLAM_MKL_BETARNG_BUILD_DATE = "00-00-0000 00:00";
+
+const char * const pgLAM_MKL_BETARNG_AUTHOR = "Programmer: Bernard Gingold, e-mail: beniekg@gmail.com";
+
+const char * const pgLAM_MKL_BETARNG_DESCRIPT = "C++ wrapper around Intel MKL vdRngBeta procedure.";
+
+}
 
 #include <iostream>
 #include "../LAM_config.h"
@@ -48,25 +41,29 @@ namespace lam{
 				//	C++ wrapper for Intel MKL vdRngBeta procedure.
 				//
 
-			__declspec(align(64)) struct  MKLBetaRNG {
+			__declspec(align(64)) struct MKLBRNGData{ // POD and trivial type.
+				// Payload aligned on 8-byte and starting at 64-byte boundary.
+				_Field_size_(m_nvalues) double * __restrict m_rvec;
+				double m_p;
+				double m_q;
+				double m_a;
+				double m_beta;
+#if (USE_STRUCT_PADDING) == 1
+				PAD_TO(1,8)
+#endif
+				MKL_INT m_nvalues;
+				MKL_INT m_brng;
+				MKL_INT m_seed;
+				MKL_INT m_error;
+			};
+
+			__declspec(align(64)) struct  MKLBetaRNG { // Non POD type and non trivial type.
+
+				  
+
 					
-					MKL_INT  m_nvalues;
-
-					MKL_UINT m_brng;
-
-					MKL_INT  m_seed;
-
-					MKL_INT  m_error;
-
-					double   m_p;
-
-					double   m_q;
-
-					double   m_a;
-
-					double   m_beta;
-
-					_Field_size_(m_nvalues)double * __restrict m_rvec;
+					MKLBRNGData datum;
+					
 
 					//
 					//	Construction and destruction
