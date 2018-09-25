@@ -174,66 +174,49 @@ namespace lam{
 		operator!=(_In_ const AVXVComplex1D &,
 				   _In_ const AVXVComplex1D &);
 
-		//
-		// Normalization of vector AVXVComplex1D.
-		// Third argument is exact copy of second one
-		// 
-		// This is needed to trigger HW prefetcher.
-		// Both AVXVComplex1D arguments must contain the same data
-		// and must no overlap in the memory.
-		// All three arguments must have the same size.
-		// No error checking is made on the inputs.
-		//
-		void vcnormalize(_Inout_ AVXVComplex1D &vout, _In_ const AVXVComplex1D &vin, 
-						 _In_ const AVXVComplex1D &tmp) noexcept(true);
-		//
-		// Arithmetic mean of complex-valued vectors
-		// Two temporary arrays are needed because
-		// one of the AVXVComplex1D arguments will be modified
-		// in-place and that means no HW prefetching for this one vector.
-		//
 		
-		void vcmean(_Inout_ std::complex<double> &, _In_ const AVXVComplex1D &v1,
-					_In_ const AVXVComplex1D &v2, _Inout_ double * __restrict ,
-					_Inout_ double * __restrict, _In_ const uint64_t) noexcept(true);
+		void v256cnormalize_product( _Inout_ AVXVComplex1D &, 
+									 _In_ const AVXVComplex1D &, 
+									 _In_ const AVXVComplex1D &,
+									 _In_ const bool) noexcept(true);
+		
+		
+		void v256cmean_product(_Inout_ std::complex<double> &,
+							  _In_ const AVXVComplex1D &v1,
+					          _In_ const AVXVComplex1D &v2) noexcept(true);
 
-	   //
-	   //	Magnitude of complex valued vector AVXVComplex1D.
-	   //	Second and third arguments must be the same
-	   //   and must not overlap in the memory.
-	   //   This is needed in order to trigger HW Prefetcher
-	   //   Both of the argumens (AVXVComplex1D) and out array
-	   //   of type double must have the same size (length)
-	   //   No error checking is being made on the input
-		void vcmag(_Inout_ double * __restrict, _In_ const AVXVComplex1D &,
-				   _In_  const AVXVComplex1D &)  noexcept(true);
+	  
+		void v256cmean_quotient(_Inout_ std::complex<double> &,
+						        _In_ const AVXVComplex1D &,
+								_In_ const AVXVComplex1D);
 
-	   //
-	   //  Calculate (convert) complex argument to degree.
-	   //  Size of output array must be the same
-	   //  as the size of argument (AVXVComplex1D)
-	   //  No error checking is performed on inputs.
-	   //
-		void vcdeg(_Inout_ double * __restrict, _In_ const AVXVComplex1D &) noexcept(true);
+	  
+		void v256cconj_product(_Inout_ AVXVComplex1D &,
+							   _In_ const AVXVComplex1D &,
+							   _In_ const AVXVComplex1D &,
+							   _In_ const bool);
 
-	  //
-	  //  Calculate (convert) argument to radian
-	  //  Size of output array must be the same
-	  //  as the size of argument (AVXVComplex1D)
-	  //  No error checking is performed on inputs.
-	  //
-		void vcrad(_Inout_ double * __restrict, _In_ const AVXVComplex1D &) noexcept(true);
+		void v256cnorm_conjprod(_Inout_ AVXVComplex1D &,
+							    _In_ const AVXVComplex1D &,
+								_In_ const AVXVComplex1D &,
+								_In_ const bool);
 
-	  //
-	  //  Calculation of AVXVComplex1D power (power of complex valued vector)
-	  //  Size of output array must be the same
-	  //  as the size of arguments (AVXVComplex1D)
-	  //  Second and third arguments must be the same
-	  //  and must not overlap in the memory.
-	  //  No error checking is performed on inputs.
-	  //
-		void vcpow(_Inout_ double * __restrict, _In_ const AVXVComplex1D &,
-				   _In_ const AVXVComplex1D &tmp) noexcept(true);
+		void v256cmean_conjprod(_Inout_ std::complex<double> &,
+							    _In_ const AVXVComplex1D &,
+								_In_ const AVXVComplex1D &);
+
+		void v256c_arithmean(_Inout_ std::complex<double> &,
+							 _In_ const AVXVComplex1D &);
+
+		void v256c_normalize(_Inout_ AVXVComplex1D &,
+							 _In_ const AVXVComplex1D &,
+							 _In_ const AVXVComplex1D &,
+							 _In_ const bool);
+
+		void v256c_magnitude(_Inout_ double * __restrict,
+							 _In_ const AVXVComplex1D &,
+							 _In_ const AVXVComplex1D &);
+
 	}
 }
 
